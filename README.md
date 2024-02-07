@@ -31,31 +31,31 @@ modkit pileup --cpg --ref ${REF} --only-tabs --threads 24 --ignore h --combine-s
 
 ## Parameters
 
-```
---sample_name : sample name (string value)
 
---r9_modkit : path to R9 bedfile
+```--sample_name``` : sample name (string value)
 
---r10_modkit : path to R10 bedfile 
+```--r9_modkit``` : path to R9 bedfile
 
---bis_modkit : path to bisulfite bedfile 
+```--r10_modkit``` : path to R10 bedfile 
 
---cov_min : minimum coverage threshold, default = 20 (int value)
+```--bis_modkit``` : path to bisulfite bedfile 
 
---cov_max : maximum coverage threshold, default = 200 (int value)
+```--cov_min``` : minimum coverage threshold, default = 20 (int value)
 
---interval : number of evenly spaced intervals for binning data, default = 10 (ex. 0, 10, 20, 30, ... 100) (int value)
+```--cov_max``` : maximum coverage threshold, default = 200 (int value)
 
---custom_interval : a list of custom unevenly spaced interval values for binning data (ex. [0, 5, 10, 50, 90, 95, 100])
+```--interval``` : number of evenly spaced intervals for binning data, default = 10 (ex. 0, 10, 20, 30, ... 100) (int value)
 
---binning : dataset to bin the graph by , either 'r9', 'r10', or 'Bisulfite' (string value)
+```--custom_interval``` : a list of custom unevenly spaced interval values for binning data (ex. [0, 5, 10, 50, 90, 95, 100])
 
---bw : number from 0.0 - 1.0 (float value) that scales the violin plot bandwidth for more or less smoothing, default = 0.1 (float value)
+```--binning``` : dataset to bin the graph by , either 'r9', 'r10', or 'Bisulfite' (string value)
 
---scale : method to normalizes each density to determine the violin's width: 'width' = default; all violins have the same, 'area' = all violins have the same area,  = violin widths are proportional to number of observations (string value)
+```--bw``` : number from 0.0 - 1.0 (float value) that scales the violin plot bandwidth for more or less smoothing, default = 0.1 (float value)
 
---out__dir : output directory path
-```
+```--scale``` : method to normalizes each density to determine the violin's width: 'width' = default; all violins have the same, 'area' = all violins have the same area,  = violin widths are proportional to number of observations (string value)
+
+```--out__dir``` : output directory path
+
 
 ## Sample run command 
 

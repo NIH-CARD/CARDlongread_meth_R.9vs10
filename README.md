@@ -66,7 +66,8 @@ python modkit_methcompare.py \
 --r9_modkit /path/to/r9_modkit.bed \
 --r10_modkit /path/to/r10_modkit.bed \
 --bis_modkit /path/to/bis_modkit.bed \
---interval 10 \
+--interval 10 \ #or
+--custom_interval [0, 5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 95, 100]
 --sample_name HG002 \
 --binning Bisulfite  \
 --out_dir /path/to/out_dir

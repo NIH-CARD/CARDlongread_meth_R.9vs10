@@ -3,7 +3,7 @@ Comparison of methylation calling between ONT long-read R.9 and R.10 data
 
 ## modkit_methcompare.py
 
-This is the python script used to make the split violin plot graphs comparing modkit methylation frequencies over specified intervals for R9, R10, and bisulfite sequencing data files. These graphs were featured in xxx paper. 
+This is the python script used to make the split violin plot graphs comparing modkit methylation frequencies over specified intervals for R9, R10, and bisulfite sequencing modkit files. These graphs were featured in xxx paper. 
 
 This script can be used to compare interval-specific methylation frequences from three different modkit files, with one of the files being used for binning. 
 

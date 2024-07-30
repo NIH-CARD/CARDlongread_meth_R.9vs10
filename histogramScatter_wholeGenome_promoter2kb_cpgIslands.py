@@ -10,6 +10,83 @@ import pyranges as pr
 import datetime
 from multiprocessing import Pool
 
+def do_bin_and_smoothing_r9_r10(df, modkit=True):
+    """ Bin the genome by 2kb and 70 CpGs """
+    win_size = 2000
+    win_max = 5000
+    cpg_min = 70
+    
+
+    # base pair size and bam index (# CpGs) tracking for each window
+    window_start_pos = df.iloc[0,:]['start']
+    window_start_idx = 0
+    window_end_pos = df.iloc[0,:]['end']
+    window_end_idx = 0
+    current_chrom = df.iloc[0,:]['chr']#['chrom']
+
+    window_count = 0
+
+    # list to store the dictionary rows to later be made into the DataFrame
+    row_list = []
+    for i in np.arange(df.shape[0]):
+        
+        # if the bps in the window are < win size, keep moving through the bed
+        if (window_end_pos-window_start_pos < win_size) :
+            window_end_pos=df.iloc[i,:]['end']
+            window_end_idx=i
+
+        elif (window_end_pos-window_start_pos > win_max) or ((window_end_pos-window_start_pos >= win_size) and ((window_end_idx-window_start_idx)>= cpg_min)):
+            # once window is big enough, store in dict and add to row list
+            if current_chrom == df.iloc[i,:]['chr']:
+                win_df = df.iloc[window_start_idx:window_end_idx,:]
+                num_positions = window_end_idx-window_start_idx
+                if modkit:
+                    d = {'chrom':current_chrom, 'start':window_start_pos, 'end':window_end_pos,
+                         'type':'5mC', 
+                         'score_Nvalid_avg_r9':round(win_df['score_Nvalid_r9'].sum()/num_positions),
+                         'Ncanon_avg_r9':round(win_df['Ncanon_r9'].sum()/num_positions),
+                         'Nmod_avg_r9':round(win_df['Nmod_r9'].sum()/num_positions),
+                         'Ndel_avg_r9':round(win_df['Ndelete_r9'].sum()/num_positions),
+                         'Nother_mod_avg_r9':round(win_df['Nother_mod_r9'].sum()/num_positions),
+                         'Nfail_avg_r9':round(win_df['Nfail_r9'].sum()/num_positions),
+                         'Ndiff_avg_r9':round(win_df['Ndiff_r9'].sum()/num_positions),
+                         'Nno_call_avg_r9':round(win_df['Nnocall_r9'].sum()/num_positions),
+                         'methylFq_r9': round(win_df['Nmod_r9'].sum()/(win_df['Ncanon_r9'].sum() + win_df['Nmod_r9'].sum()) * 100, 1),
+                         'score_Nvalid_avg_r10':round(win_df['score_Nvalid_r10'].sum()/num_positions),
+                         'Ncanon_avg_r10':round(win_df['Ncanon_r10'].sum()/num_positions),
+                         'Nmod_avg_r10':round(win_df['Nmod_r10'].sum()/num_positions),
+                         'Ndel_avg_r10':round(win_df['Ndelete_r10'].sum()/num_positions),
+                         'Nother_mod_avg_r10':round(win_df['Nother_mod_r10'].sum()/num_positions),
+                         'Nfail_avg_r10':round(win_df['Nfail_r10'].sum()/num_positions),
+                         'Ndiff_avg_r10':round(win_df['Ndiff_r10'].sum()/num_positions),
+                         'Nno_call_avg_r10':round(win_df['Nnocall_r10'].sum()/num_positions),
+                         'methylFq_r10': round(win_df['Nmod_r10'].sum()/(win_df['Ncanon_r10'].sum() + win_df['Nmod_r10'].sum()) * 100, 1),
+                         'ungrouped_idx':[window_start_idx,window_end_idx]
+
+                        }
+                else:
+                    # ["chr",'start','end','fracMod','Nmod','Ncanon']
+                    d = {'chrom':current_chrom, 'start':window_start_pos, 'end':window_end_pos,
+                         'totalCov_avg':round(win_df['Nmod'].sum()+win_df['Ncanon'].sum()/num_positions),
+                         'Ncanon_avg':round(win_df['Ncanon'].sum()/num_positions),
+                         'methylFq': round(win_df['Nmod'].sum()/(win_df['Ncanon'].sum() + win_df['Nmod'].sum()) * 100, 1),
+                         'ungrouped_idx':[window_start_idx,window_end_idx]
+
+                        }
+                row_list.append(d)
+                window_start_pos = df.iloc[window_end_idx,:]['end']
+                window_start_idx = window_end_idx
+                window_count+=1
+
+            else:
+                print('jumped across chroms..', current_chrom, df.iloc[i,:]['chrom'])
+        elif ((window_end_idx-window_start_idx)<= cpg_min):
+            #window not enough cpgs
+            window_end_pos=df.iloc[i,:]['end']
+            window_end_idx=i
+
+    return(pd.DataFrame(row_list))
+
 
 ###############################################
 ### whole genome strand combined:           ###

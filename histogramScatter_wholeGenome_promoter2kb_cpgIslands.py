@@ -138,7 +138,7 @@ smoothed_r9_r10_wg_2kb_70cpg['genomic_size'] = smoothed_r9_r10_wg_2kb_70cpg['end
 smoothed_r9_r10_wg_2kb_70cpg['Ncpgs'] = smoothed_r9_r10_wg_2kb_70cpg['ungrouped_idx'].apply(subtract_elements)
 smoothed_r9_r10_wg_2kb_70cpg['cpgDensity'] = smoothed_r9_r10_wg_2kb_70cpg.loc[smoothed_r9_r10_wg_2kb_70cpg['Ncpgs']<1000]['Ncpgs']/smoothed_r9_r10_wg_2kb_70cpg.loc[smoothed_r9_r10_wg_2kb_70cpg['Ncpgs']<1000]['genomic_size']
 
-# 2Kb whole genome binned correlation
+# 2kb whole genome binned correlation
 pearson_corr = smoothed_r9_r10_wg_2kb_70cpg['methylFq_r9'].corr(smoothed_r9_r10_wg_2kb_70cpg['methylFq_r10'])
 
 print(smoothed_r9_r10_wg_2kb_70cpg.shape[0], 'sites',"\nPearson correlation coefficient:", pearson_corr)
@@ -149,7 +149,7 @@ print('RMSE:',np.sqrt(mean_squared_error(smoothed_r9_r10_wg_2kb_70cpg['methylFq_
 smoothed_r9_r10_wg_2kb_70cpg['diff'] = abs(smoothed_r9_r10_wg_2kb_70cpg['methylFq_r9']-smoothed_r9_r10_wg_2kb_70cpg['methylFq_r10'])
 print('avd diff', smoothed_r9_r10_wg_2kb_70cpg['diff'].mean())
 """
-2Kb Whole Genome Filtered Correlation:
+2kb Whole Genome Filtered Correlation:
 48300 sites 
 Pearson correlation coefficient: 0.9980392726556955
 RMSE: 3.7484800508354565
@@ -166,7 +166,7 @@ df_2kb_filt = smoothed_r9_r10_wg_2kb_70cpg.loc[smoothed_r9_r10_wg_2kb_70cpg['cpg
 
 
 ###############################################
-### 2Kb Promoter CpGs:                      ###
+### 2kb Promoter CpGs:                      ###
 ###############################################
 # 
 headr = ["chr",'start','end','promoter_name','number','strand','ratio','avgMeth']
@@ -450,9 +450,9 @@ scatter2 = ax2.scatter(df_2kb_filt['methylFq_r9'], df_2kb_filt['methylFq_r10'],
 #               c=df_2kb_filt['cpgDensity'], cmap='viridis')
 ax2.plot([0, 100],[0, 100],color='#00CED1',linewidth=2.5)
 
-ax2.set_title('2Kb Whole Genome', fontsize=axis_title_fontsize)
-ax2.set_xlabel('R9 2Kb Methylation Frequency', fontsize=axis_label_fontsize)
-ax2.set_ylabel('R10 2Kb Methylation Frequency', fontsize=axis_label_fontsize)
+ax2.set_title('2kb Whole Genome', fontsize=axis_title_fontsize)
+ax2.set_xlabel('R9 2kb Methylation Frequency', fontsize=axis_label_fontsize)
+ax2.set_ylabel('R10 2kb Methylation Frequency', fontsize=axis_label_fontsize)
 ax2.tick_params(axis='x', labelsize=16) 
 ax2.tick_params(axis='y', labelsize=16) 
 # cbar2 = fig.colorbar(scatter2, ax=ax2)
@@ -473,7 +473,7 @@ ax3.set_xlabel('Regional Methylation Frequency', fontsize=axis_label_fontsize)
 ax3.set_xticks(bin_centers, range(0, 101, 5),rotation=90, fontsize=16)
 ax3.tick_params(axis='y', labelsize=16) 
 ax3.set_ylabel('Counts (cov>5)', fontsize=axis_label_fontsize)
-ax3.set_title('HG002 Aggregated 2Kb Promoter Methylation Frequency ('+str(filt_pro_data.shape[0])+' sites)', fontsize=axis_title_fontsize)
+ax3.set_title('HG002 Aggregated 2kb Promoter Methylation Frequency ('+str(filt_pro_data.shape[0])+' sites)', fontsize=axis_title_fontsize)
 ax3.text(-0.1, 1.1, 'c.', transform=ax3.transAxes, fontsize=figure_text_fontsize, va='top', ha='right')
 
 ## Promoters 2kb scatter: 
@@ -482,7 +482,7 @@ scatter4 = ax4.scatter(filt_pro_data['avgMeth_r9'], filt_pro_data['avgMeth_r10']
                        s=3, alpha=alpha_val, color=blended_color)
 ax4.plot([0, 100],[0, 100],color='#00CED1',linewidth=2.5)
 
-ax4.set_title('2Kb Promoters', fontsize=axis_title_fontsize)
+ax4.set_title('2kb Promoters', fontsize=axis_title_fontsize)
 ax4.set_xlabel('R9 Methylation Frequency', fontsize=axis_label_fontsize)
 ax4.set_ylabel('R10 Methylation Frequency', fontsize=axis_label_fontsize)
 ax4.set_xticks(np.arange(0, 101, 20), np.arange(0, 101, 20), fontsize=16)
